@@ -8,3 +8,11 @@ exports.index = function(req, res){
                    + '/add/{CODE}';
   res.render('index', { title: 'Express', scan_url: scan_url });
 };
+
+exports.addCode = function(codes){
+  return function(req, res){
+    var code = req.params.code;
+    codes.push(code)
+    res.send("added " + code);
+  }
+};

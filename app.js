@@ -29,7 +29,10 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+var codes = [];
+
 app.get('/', routes.index);
+app.get('/add/:code', routes.addCode(codes));
 
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);
