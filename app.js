@@ -33,9 +33,7 @@ var server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
 app.get('/', routes.index);
-app.get('/add/:code', routes.addCode(function(code) {
-    io.sockets.emit('code', code);
-}));
+app.get('/add/:id/:code', routes.addCode(io));
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

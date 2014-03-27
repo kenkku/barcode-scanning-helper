@@ -5,14 +5,14 @@
 
 exports.index = function(req, res){
   var scan_url = req.protocol + '://' + req.get('host')
-                   + '/add/{CODE}';
+                   + '/add/default/{CODE}';
   res.render('index', { title: 'Express', scan_url: scan_url });
 };
 
-exports.addCode = function(callback){
+exports.addCode = function(io){
   return function(req, res){
     var code = req.params.code;
     res.send("added " + code);
-    callback(code);
+    io.sockets.emit("code", code);
   }
 };
