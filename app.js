@@ -29,21 +29,14 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-var codes = [];
-
-app.get('/', routes.index);
-app.get('/add/:code', routes.addCode(codes));
-
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
+app.get('/', routes.index);
+app.get('/add/:code', routes.addCode(function(code) {
+    io.sockets.emit('code', code);
+}));
+
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
-});
-
-io.sockets.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
 });

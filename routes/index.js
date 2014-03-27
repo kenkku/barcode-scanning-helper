@@ -9,10 +9,10 @@ exports.index = function(req, res){
   res.render('index', { title: 'Express', scan_url: scan_url });
 };
 
-exports.addCode = function(codes){
+exports.addCode = function(callback){
   return function(req, res){
     var code = req.params.code;
-    codes.push(code)
     res.send("added " + code);
+    callback(code);
   }
 };
