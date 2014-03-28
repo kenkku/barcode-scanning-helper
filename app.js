@@ -33,6 +33,7 @@ var server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
 app.get('/', routes.index);
+app.get('/list/:id', routes.list);
 app.get('/add/:id/:code', routes.addCode(io));
 
 server.listen(app.get('port'), function(){
