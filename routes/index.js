@@ -17,10 +17,16 @@ exports.list = function (req, res) {
     res.render('list', { title: id, scan_url: scan_url});
 }
 
-exports.addCode = function(io){
+exports.addCode = function(codes, io){
   return function(req, res){
     var code = req.params.code;
+    var id = req.params.id;
+    if(codes[id] === undefined) {
+        codes[id] = [];
+    }
+    codes[id].push(code);
+
     res.send("added " + code);
-    io.sockets.emit("code", code);
+    io.sockets.in(id).emit("code", code);
   }
 };

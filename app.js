@@ -32,10 +32,19 @@ if ('development' == app.get('env')) {
 var server = http.createServer(app)
   , io = require('socket.io').listen(server);
 
+var codes = {};
+
 app.get('/', routes.index);
 app.get('/list/:id', routes.list);
-app.get('/add/:id/:code', routes.addCode(io));
+app.get('/add/:id/:code', routes.addCode(codes, io));
 
 server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+
+io.sockets.on('connection', function (socket) {
+    socket.on('id', function(id) {
+        socket.emit('codes', codes[id]);
+        socket.join(id);
+    });
 });
